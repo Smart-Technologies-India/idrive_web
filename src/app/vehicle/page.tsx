@@ -413,7 +413,7 @@ export default function Home() {
                     className="w-full accent-slate-900 mt-1"
                     onChange={(val: any) => {
                       if (!val) return;
-                      setTimeSlot(val.value);
+                      setTransmission(val.value);
                     }}
                   />
                 </div>

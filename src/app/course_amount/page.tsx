@@ -174,6 +174,7 @@ export default function CourseAmount() {
       }
 
       const vehicleresponse = await GetAllVehicle({});
+      console.log(vehicleresponse);
       if (vehicleresponse.status) {
         setVehicles(vehicleresponse.data);
       }
@@ -224,7 +225,7 @@ export default function CourseAmount() {
             </button>
           </DrawerTrigger>
           <DrawerContent>
-            <div className="mx-auto w-6/12">
+            <div className="mx-auto w-4/6">
               <DrawerHeader className="m-0 p-0 mb-4">
                 <DrawerTitle>Course Amount</DrawerTitle>
                 <DrawerDescription>
@@ -273,42 +274,6 @@ export default function CourseAmount() {
                   </div>
                   <div className="flex-1">
                     <Label htmlFor="ac" className="block text-sm font-medium">
-                      Vehicle
-                    </Label>
-                    <MulSelect
-                      styles={{
-                        menuList(base, props) {
-                          return {
-                            height: "150px",
-                            overflowY: "scroll",
-                            boxShadow: "0 0 2px rgba(0,0,0,0.4)",
-                            borderRadius: "6px",
-                            marginTop: "4px",
-                            position: "absolute",
-                            zIndex: "20",
-                            background: "#fff",
-                            width: "100%",
-                          };
-                        },
-                      }}
-                      isMulti={false}
-                      options={vehicles.map((vhcl: any) => {
-                        return {
-                          value: vhcl.Id,
-                          label: vhcl.makeModel,
-                        };
-                      })}
-                      className="w-full accent-slate-900 mt-1"
-                      onChange={(val: any) => {
-                        if (!val) return;
-                        setVehicleId(val.value.toString());
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className="flex gap-4 mt-2">
-                  <div className="flex-1">
-                    <Label htmlFor="ac" className="block text-sm font-medium">
                       Agent
                     </Label>
                     <MulSelect
@@ -331,15 +296,61 @@ export default function CourseAmount() {
                       options={agents.map((agent: any) => {
                         return {
                           value: agent.Id,
-                          label: agent.agentName,
+                          label: `${agent.agentName} - [${agent.agentCorpName}]`,
                         };
                       })}
                       classNamePrefix="h-20"
                       className="w-full accent-slate-900 mt-1"
-                      onChange={(val: any) => {
+                      onChange={async (val: any) => {
                         if (!val) return;
                         setAgentId(val.value.toString());
+
+                        const vehicleresponse = await GetAllVehicle({});
+                        if (vehicleresponse.status && vehicleresponse.data) {
+                          setVehicles(
+                            vehicleresponse.data.filter(
+                              (vhcl: any) => vhcl.agentId == agentId
+                            )
+                          );
+                        }
                       }}
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-4 mt-2">
+                  <div className="flex-1">
+                    <Label htmlFor="ac" className="block text-sm font-medium">
+                      Vehicle
+                    </Label>
+                    <MulSelect
+                      styles={{
+                        menuList(base, props) {
+                          return {
+                            height: "150px",
+                            overflowY: "scroll",
+                            boxShadow: "0 0 2px rgba(0,0,0,0.4)",
+                            borderRadius: "6px",
+                            marginTop: "4px",
+                            position: "absolute",
+                            zIndex: "20",
+                            background: "#fff",
+                            width: "100%",
+                          };
+                        },
+                      }}
+                      isMulti={false}
+                      options={vehicles.map((vhcl: any) => {
+                        return {
+                          value: vhcl.Id,
+                          label: `${vhcl.makeModel} - [${vhcl.vhclNo}]`,
+                        };
+                      })}
+                      className="w-full accent-slate-900 mt-1"
+                      onChange={(val: any) => {
+                        if (!val) return;
+                        setVehicleId(val.value.toString());
+                      }}
+                      isDisabled={agentId == "0"}
                     />
                   </div>
                 </div>
@@ -387,6 +398,7 @@ export default function CourseAmount() {
                   </DrawerClose>
                 </div>
               </DrawerFooter>
+              <div className="h-20"></div>
             </div>
           </DrawerContent>
         </Drawer>

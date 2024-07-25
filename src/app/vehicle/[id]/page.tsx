@@ -30,11 +30,11 @@ const TimeSlotView = () => {
 
   const id: string = params.id.toString();
 
-  const [agents, setAgents] = useState<any[]>([]);
-  const [courses, setCourses] = useState<any[]>([]);
+  // const [agents, setAgents] = useState<any[]>([]);
+  // const [courses, setCourses] = useState<any[]>([]);
 
-  const [agentId, setAgentId] = useState<string>("0");
-  const [courseId, setCourseId] = useState<string>("0");
+  // const [agentId, setAgentId] = useState<string>("0");
+  // const [courseId, setCourseId] = useState<string>("0");
 
   const [vehicle, setVehicle] = useState<any>();
 
@@ -47,6 +47,7 @@ const TimeSlotView = () => {
       const response = await GetVehicle({ id: id });
       if (response.status) {
         setVehicle(response.data[0]);
+        console.log(response.data[0]);
 
         const isExistResponse = await TimeslotExist({
           vehicleId: response.data[0].Id.toString(),
@@ -90,15 +91,15 @@ const TimeSlotView = () => {
         }
       }
 
-      const agentresponse = await GetAllAgent({});
-      if (agentresponse.status) {
-        setAgents(agentresponse.data);
-      }
+      // const agentresponse = await GetAllAgent({});
+      // if (agentresponse.status) {
+      //   setAgents(agentresponse.data);
+      // }
 
-      const courseresponse = await GetAllCourse({});
-      if (courseresponse.status) {
-        setCourses(courseresponse.data);
-      }
+      // const courseresponse = await GetAllCourse({});
+      // if (courseresponse.status) {
+      //   setCourses(courseresponse.data);
+      // }
 
       setLoding(false);
     };
@@ -180,29 +181,31 @@ const TimeSlotView = () => {
   };
 
   const addslot = async () => {
-    if (id == null || id == undefined || id == "" || id == "0") {
-      toast.error("Select the vehicle");
-    } else if (
-      agentId == null ||
-      agentId == undefined ||
-      agentId == "" ||
-      agentId == "0"
-    ) {
-      toast.error("Select Agent Id");
-    } else if (
-      courseId == null ||
-      courseId == undefined ||
-      courseId == "" ||
-      courseId == "0"
-    ) {
-      toast.error("Select course Id");
-    } else if (timeslot.length == 0) {
+    // if (id == null || id == undefined || id == "" || id == "0") {
+    //   toast.error("Select the vehicle");
+    // } else if (
+    //   agentId == null ||
+    //   agentId == undefined ||
+    //   agentId == "" ||
+    //   agentId == "0"
+    // ) {
+    //   toast.error("Select Agent Id");
+    // } else if (
+    //   courseId == null ||
+    //   courseId == undefined ||
+    //   courseId == "" ||
+    //   courseId == "0"
+    // ) {
+    //   toast.error("Select course Id");
+    // } else
+
+    if (timeslot.length == 0) {
       toast.error("Select Atleast one time");
     } else {
       const response = await AddTimeSlot({
-        courseId: courseId,
+        courseId: "1",
         vehicalId: id,
-        agentid: agentId,
+        agentid: vehicle.agentId.toString(),
         slot: timeslot,
       });
 
@@ -318,7 +321,7 @@ const TimeSlotView = () => {
                 }}
               />
 
-              <Label
+              {/* <Label
                 htmlFor="timesolt"
                 className="block text-sm font-medium mt-4"
               >
@@ -386,7 +389,7 @@ const TimeSlotView = () => {
                   if (!val) return;
                   setAgentId(val.value.toString());
                 }}
-              />
+              /> */}
               <Button className="w-full mt-2" onClick={addslot}>
                 CREATE
               </Button>
