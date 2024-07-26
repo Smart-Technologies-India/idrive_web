@@ -304,12 +304,13 @@ export default function CourseAmount() {
                       onChange={async (val: any) => {
                         if (!val) return;
                         setAgentId(val.value.toString());
+                        console.log(val);
 
                         const vehicleresponse = await GetAllVehicle({});
                         if (vehicleresponse.status && vehicleresponse.data) {
                           setVehicles(
                             vehicleresponse.data.filter(
-                              (vhcl: any) => vhcl.agentId == agentId
+                              (vhcl: any) => vhcl.agentId == val.value
                             )
                           );
                         }
