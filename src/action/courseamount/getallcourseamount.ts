@@ -11,7 +11,7 @@ const GetAllCourseAmount = async (
 ): Promise<ApiResponseType<any | null>> => {
   try {
     const result = await pool.query(
-      `SELECT tb_course_amount.*, tb_agent.Id AS tb_agentId, tb_agent.agentCorpName, tb_crs.Id AS tb_crsId, tb_crs.name, tb_vhcl.Id AS tb_vhclId, tb_vhcl.makeModel, tb_vhcl.vhclNo FROM tb_course_amount  LEFT JOIN tb_agent ON tb_course_amount.agentId = tb_agent.Id LEFT JOIN tb_crs ON tb_course_amount.courseId = tb_crs.Id LEFT JOIN tb_vhcl ON tb_course_amount.vehicleId = tb_vhcl.Id;`
+      `SELECT tb_crs_amnt.*, tb_agent.Id AS tb_agentId, tb_agent.agentCorpName, tb_crs.Id AS tb_crsId, tb_crs.name, tb_vhcl.Id AS tb_vhclId, tb_vhcl.makeModel, tb_vhcl.vhclNo FROM tb_crs_amnt  LEFT JOIN tb_agent ON tb_crs_amnt.agentId = tb_agent.Id LEFT JOIN tb_crs ON tb_crs_amnt.courseId = tb_crs.Id LEFT JOIN tb_vhcl ON tb_crs_amnt.vehicleId = tb_vhcl.Id;`
     );
     const rows = result[0];
 

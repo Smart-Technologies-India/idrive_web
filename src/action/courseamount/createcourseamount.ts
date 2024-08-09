@@ -19,7 +19,7 @@ const CreateCourseAmount = async (
   try {
     console.log(payload);
     const [result] = await pool.query<ResultSetHeader>(
-      `INSERT INTO tb_course_amount ( agentId, courseId, vehicleId, crsBaseFees, iDriveComm ) VALUES (?, ?, ?, ?, ?)`,
+      `INSERT INTO tb_crs_amnt ( agentId, courseId, vehicleId, baseFee, iDriveCharge ) VALUES (?, ?, ?, ?, ?)`,
       [
         payload.agent,
         payload.course,
