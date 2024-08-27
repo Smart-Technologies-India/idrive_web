@@ -74,8 +74,8 @@ export default function CourseAmount() {
 
   type CourseAmount = {
     Id: number;
-    crsBaseFees: string;
-    iDriveComm: number;
+    baseFee: string;
+    iDriveCharge: number;
     agentCorpName: string;
     name: string;
     makeModel: string;
@@ -95,15 +95,20 @@ export default function CourseAmount() {
         footer: (info) => info.column.id,
       },
       {
-        accessorFn: (row) => row.crsBaseFees,
+        accessorFn: (row) => row.baseFee,
         header: "Base Fees",
         cell: (info) => info.getValue(),
         footer: (info) => info.column.id,
       },
       {
-        accessorFn: (row) => row.iDriveComm,
+        accessorFn: (row) => row.iDriveCharge,
         header: "iDrive Commission",
-        cell: (info) => info.getValue(),
+        cell: (info) => {
+          const baseFee = Number(info.row.original.baseFee); // Ensure baseFee is a number
+          const iDriveCharge = Number(info.getValue()); // Ensure iDriveCharge is a number
+          const commission = (baseFee * iDriveCharge) / 100;
+          return isNaN(commission) ? "N/A" : commission.toFixed(2); // Handle NaN case
+        },
         footer: (info) => info.column.id,
       },
       {
@@ -161,6 +166,8 @@ export default function CourseAmount() {
 
       if (response.status) {
         setCourseAmount(response.data);
+
+        console.log(response.data);
       }
 
       const agentresponse = await GetAllAgent({});
@@ -174,7 +181,6 @@ export default function CourseAmount() {
       }
 
       const vehicleresponse = await GetAllVehicle({});
-      console.log(vehicleresponse);
       if (vehicleresponse.status) {
         setVehicles(vehicleresponse.data);
       }

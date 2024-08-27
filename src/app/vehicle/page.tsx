@@ -323,20 +323,24 @@ export default function Home() {
                         label: "Hatchback",
                       },
                       {
-                        value: "Motorcycle",
+                        value: "bike",
                         label: "Motorcycle",
                       },
                       {
-                        value: "Heavy",
+                        value: "truck",
                         label: "Heavy",
                       },
                       {
-                        value: "Commercial",
+                        value: "commercial",
                         label: "Commercial",
                       },
                       {
-                        value: "Auto Rickshaw",
+                        value: "auto",
                         label: "Auto Rickshaw",
+                      },
+                      {
+                        value: "scooter",
+                        label: "Scooter",
                       },
                     ]}
                     className="w-full accent-slate-900 mt-1"
